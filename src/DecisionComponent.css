@@ -1,0 +1,50 @@
+/* DecisionComponent.css */
+
+.decision-container {
+    text-align: center;
+    padding: 20px;
+  }
+  
+  .title {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  .button-container {
+    margin-bottom: 20px;
+  }
+  
+  .capture-button {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    margin-right: 10px;
+  }
+  
+  .file-input-label {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .result-container {
+    margin-top: 20px;
+  }
+  
+  .image-container {
+    margin-top: 20px;
+  }
+  
+  .captured-image {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  .webcam {
+    max-width: 100%;
+  }
+  
