@@ -1,70 +1,65 @@
-# Getting Started with Create React App
+# NeuralEye 🧠
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Real-time image classifier built with **React 18 + Vite** and **TensorFlow.js**, powered by **MobileNet v2** (1,000 ImageNet classes). Runs 100% in the browser — no server, no backend.
 
-## Available Scripts
+## Quick start
 
-In the project directory, you can run:
+```bash
+npm install
+npm run dev        # http://localhost:5173
+```
 
-### `npm start`
+```bash
+npm run build      # production build → dist/
+npm run preview    # preview the production build locally
+```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+> **First load:** MobileNet weights (~16 MB) are fetched from the TF Hub CDN and cached by the browser. Subsequent loads are near-instant.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Features
 
-### `npm test`
+- **Drag-and-drop** or click-to-upload image classification
+- **Live webcam** capture and classify
+- **Top-5 predictions** with animated confidence bars
+- High-confidence (>50%) vs uncertain verdict
+- Proper loading, error and empty states
+- Responsive two-column layout, dark theme
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Why Vite instead of Create React App?
 
-### `npm run build`
+CRA (`react-scripts`) is no longer maintained and `npm audit fix --force` will break it by downgrading it to `0.0.0`. Vite is the modern replacement: faster dev server, smaller builds, zero legacy vulnerabilities.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Project structure
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```
+neuraleye/
+├── index.html               # Vite entry point
+├── vite.config.js
+├── package.json
+└── src/
+    ├── main.jsx             # React root
+    ├── App.jsx              # Thin wrapper
+    ├── index.css            # Global reset
+    ├── DecisionComponent.jsx  # All classifier logic + UI
+    └── DecisionComponent.css  # Styles (CSS variables)
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## How it works
 
-### `npm run eject`
+1. **Model load** — `mobilenet.load()` fetches MobileNet v2 (α=1.0) from TF Hub and compiles a TF.js graph model inside a Web Worker thread.
+2. **Inference** — The image is decoded into pixels; `model.classify(imgEl, 5)` runs a forward pass and returns the top-5 class probabilities.
+3. **Verdict** — Top prediction probability > 50% → *high confidence*; otherwise → *uncertain*.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## Tech stack
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+| Layer | Library |
+|---|---|
+| UI | React 18 |
+| Bundler | Vite 5 |
+| Neural Network | TensorFlow.js 4 + MobileNet v2 |
+| Camera | react-webcam |
+| Styling | CSS custom properties |
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## License
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+MIT
